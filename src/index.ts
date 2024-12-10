@@ -62,6 +62,7 @@ export default {
 </head>
 <body>
 <h1>${article?.title || url}</h1>
+${article?.byline ? `<p>By: ${article.byline}</p>` : ''}
 <p>Original: <a href="${url}">${url}</a></p>
 ${article?.content}
 </body>
