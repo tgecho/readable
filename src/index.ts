@@ -33,10 +33,16 @@ export default {
 			return new Response('Invalid token', { status: 403 });
 		}
 
-		// TODO: check token
-		const fetched = await fetch(url);
+		const fetched = await fetch(url, { headers: { 'User-Agent': `"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"` } });
 		if (!fetched.ok) {
-			return new Response('Failed to fetch', { status: fetched.status });
+			return new Response(
+				`
+				<h1>Failed to fetch</h1>
+				<p>${url}</p>
+				<p>${await fetched.text()}</p>
+			`,
+				{ status: fetched.status }
+			);
 		}
 		const body = await fetched.text();
 		const DOMPurify = createDOMPurify(parseHTML(''));
@@ -69,7 +75,7 @@ ${article?.content}
 </html>
 		`;
 
-		return new Response(content || 'Failed to parse', {
+		return new Response(content, {
 			headers: {
 				'Content-Type': fetched.headers.get('content-type') || 'text/html',
 			},
