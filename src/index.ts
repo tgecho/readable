@@ -38,10 +38,13 @@ export default {
 			return new Response(
 				`
 				<h1>Failed to fetch</h1>
-				<p>${url}</p>
+				<p><a href="${url}">${url}<'a></p>
 				<p>${await fetched.text()}</p>
 			`,
-				{ status: fetched.status }
+				{
+					status: fetched.status,
+					headers: { 'Content-Type': 'text/html' },
+				}
 			);
 		}
 		const body = await fetched.text();
