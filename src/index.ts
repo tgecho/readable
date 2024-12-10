@@ -30,7 +30,16 @@ export default {
 		const digest = hash.digest('hex');
 		if (token !== digest) {
 			console.log(`Invalid token, expected ${digest} got ${token}`);
-			return new Response('Invalid token', { status: 403 });
+			return new Response(
+				`
+				<h1>Invalid token</h1>
+				for <a href="${url}">${url}</a>
+			`,
+				{
+					status: 403,
+					headers: { 'Content-Type': 'text/html' },
+				}
+			);
 		}
 
 		const fetched = await fetch(url, { headers: { 'User-Agent': `"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"` } });
